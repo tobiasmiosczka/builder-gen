@@ -21,6 +21,8 @@
         A Maven plugin that automatically generates builder classes for Java projects.
     </description>
 
+    <url>https://github.com/tobiasmiosczka/builder-gen</url>
+
     <developers>
         <developer>
             <id>tobiasmiosczka</id>

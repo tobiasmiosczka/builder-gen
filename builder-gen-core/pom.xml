@@ -12,6 +12,8 @@
     <artifactId>builder-gen-core</artifactId>
     <packaging>jar</packaging>
 
+    <name>builder-gen : builder-gen-core</name>
+
     <dependencyManagement>
         <dependencies>
             <dependency>

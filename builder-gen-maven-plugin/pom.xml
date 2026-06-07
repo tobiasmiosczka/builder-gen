@@ -12,6 +12,8 @@
     <artifactId>builder-gen-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
 
+    <name>builder-gen : builder-gen-maven-plugin</name>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
