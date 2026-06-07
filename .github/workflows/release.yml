@@ -15,12 +15,11 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
           cache: 'maven'
-      - name: Create Ephemeral GPG Key
-        uses: samuelmeuli/action-gpg-import@v1
-        id: gpg
-        with:
-          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+      - name: Import GPG Key via CLI
+        run: |
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" > private.key
+          gpg --batch --import private.key
+          rm private.key
       - name: Set Project Version from Tag
         run: |
           TAG_VERSION="${GITHUB_REF_NAME#v}"
