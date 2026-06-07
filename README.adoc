@@ -1,0 +1,64 @@
+= Builder Generator
+:toc:
+:toc-placement: preamble
+
+A Maven plugin that automatically generates builder classes for Java projects.
+
+== Overview
+
+The Builder Generator is a multi-module Maven project that provides automatic generation of builder pattern implementations for Java classes.
+It analyzes your Java source code and creates corresponding builder classes to simplify object construction.
+
+== Project Structure
+
+The project consists of three modules:
+
+* *builder-gen-core*: Core library containing the builder generation logic and JavaParser integration
+* *builder-gen-maven-plugin*: Maven plugin that integrates the builder generation into the Maven build lifecycle
+* *builder-gen-test*: Test module for validation and integration testing
+
+== Requirements
+
+* Java 21 or higher
+* Maven 3.x
+
+=== Dependencies
+* JavaParser 3.26.3
+
+== Usage
+
+Add the plugin to your project's `pom.xml`:
+
+[source,xml]
+----
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>io.github.tobiasmiosczka</groupId>
+                <artifactId>builder-gen-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate-builders</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- List of all packages containing DTO-Classes -->
+                    <packages>
+                        <package>io.github.tobiasmiosczka.builder.gen.test.model</package>
+                    </packages>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+----
+
+== Building
+
+To build the project from source:
+
+[source,bash]
+----
+mvn clean install
+----
