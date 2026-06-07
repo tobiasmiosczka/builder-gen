@@ -8,11 +8,19 @@
     <artifactId>builder-gen</artifactId>
     <version>main-SNAPSHOT</version>
     <packaging>pom</packaging>
+
     <modules>
         <module>builder-gen-core</module>
         <module>builder-gen-maven-plugin</module>
         <module>builder-gen-test</module>
     </modules>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
