@@ -15,6 +15,21 @@
         <module>builder-gen-test</module>
     </modules>
 
+    <name>builder-gen</name>
+
+    <description>
+        A Maven plugin that automatically generates builder classes for Java projects.
+    </description>
+
+    <developers>
+        <developer>
+            <id>tobiasmiosczka</id>
+            <name>Tobias Miosczka</name>
+            <email>tobias.miosczka@gmail.com</email>
+            <organizationUrl>https://github.com/tobiasmiosczka</organizationUrl>
+        </developer>
+    </developers>
+
     <scm>
         <connection>scm:git:git://github.com/tobiasmiosczka/builder-gen.git</connection>
         <developerConnection>scm:git:ssh://github.com/tobiasmiosczka/builder-gen.git</developerConnection>
