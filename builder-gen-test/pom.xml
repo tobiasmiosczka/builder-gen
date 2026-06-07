@@ -10,9 +10,6 @@
     </parent>
 
     <artifactId>builder-gen-test</artifactId>
-    <properties>
-        <maven.compiler.release>25</maven.compiler.release>
-    </properties>
 
     <dependencyManagement>
         <dependencies>
