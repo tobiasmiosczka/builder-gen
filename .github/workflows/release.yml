@@ -19,6 +19,11 @@ jobs:
           server-password: MAVEN_PASSWORD
           gpg-private-key: ${{ secrets.GPG_SIGNING_KEY }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
+      - name: Set Project Version from Tag
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          echo "Setting project version to: $TAG_VERSION"
+          mvn versions:set -DnewVersion=$TAG_VERSION -DprocessAllModules=true -DgenerateBackupPoms=false
       - name: "Run Maven"
         shell: bash
         run: mvn clean install --batch-mode -PintegrationTests
