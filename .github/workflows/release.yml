@@ -1,0 +1,37 @@
+name: Release to Maven Central
+on:
+  push:
+    tags:
+      - 'v*'
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven'
+      - name: Create Ephemeral GPG Key
+        uses: samuelmeuli/action-gpg-import@v1
+        id: gpg
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+      - name: Set Project Version from Tag
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          echo "Setting project version to: $TAG_VERSION"
+          mvn versions:set -DnewVersion=$TAG_VERSION -DprocessAllModules=true -DgenerateBackupPoms=false
+      - name: Publish to Sonatype Central
+        run: |
+          mvn clean deploy \
+            --no-transfer-progress \
+            -Dgpg.passphrase="${{ secrets.GPG_PASSPHRASE }}" \
+            -Dgpg.keyname="${{ steps.gpg.outputs.key_id }}"
+        env:
+          MAVEN_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
