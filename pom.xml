@@ -14,7 +14,7 @@
         <module>builder-gen-maven-plugin</module>
         <module>builder-gen-test</module>
     </modules>
-4
+
     <scm>
         <connection>scm:git:git://github.com/tobiasmiosczka/builder-gen.git</connection>
         <developerConnection>scm:git:ssh://github.com/tobiasmiosczka/builder-gen.git</developerConnection>
