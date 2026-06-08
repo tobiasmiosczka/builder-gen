@@ -29,7 +29,7 @@ public class CopyFactoryMethodContributor implements ClassContributor {
 
     private static BlockStmt generateCopyConstructorStatement(GeneratorContext ctx) {
         BlockStmt copyBody = new BlockStmt();
-        for (VariableDeclarator field : ctx.fields()) {
+        for (VariableDeclarator field : ctx.getFields()) {
             String fieldName = field.getNameAsString();
             copyBody.addStatement("this." + fieldName + " = " + COPY_CONSTRUCTOR_ORIGINAL_NAME + "." + fieldName + ";");
         }

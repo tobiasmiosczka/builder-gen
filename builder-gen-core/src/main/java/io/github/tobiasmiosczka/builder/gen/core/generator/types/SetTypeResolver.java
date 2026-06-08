@@ -22,7 +22,7 @@ public class SetTypeResolver extends GenericTypeResolver {
         imports.add(Set.class.getName());
         imports.add(Collectors.class.getName());
         getGenericCollectionType(type)
-                .map(e -> ctx.typeResolver().resolveImports(e, ctx))
+                .map(e -> ctx.getTypeResolver().resolveImports(e, ctx))
                 .ifPresent(imports::addAll);
         return imports;
     }
@@ -30,14 +30,14 @@ public class SetTypeResolver extends GenericTypeResolver {
     @Override
     public Optional<String> builderValueRetrieval(Type type, GeneratorContext ctx, int depth) {
         return getGenericCollectionType(type)
-                .flatMap(e -> ctx.typeResolver().builderValueRetrievalMapper(e, ctx))
+                .flatMap(e -> ctx.getTypeResolver().builderValueRetrievalMapper(e, ctx))
                 .map(e -> ".stream().map(" + e + ").collect(Collectors.toSet())");
     }
 
     @Override
     public String resolveBuilderFieldType(Type type, GeneratorContext ctx) {
         return getGenericCollectionType(type)
-                .map(e -> "Set<" + ctx.typeResolver().resolveBuilderFieldType(e, ctx) + ">")
+                .map(e -> "Set<" + ctx.getTypeResolver().resolveBuilderFieldType(e, ctx) + ">")
                 .orElse("Set");
     }
 }

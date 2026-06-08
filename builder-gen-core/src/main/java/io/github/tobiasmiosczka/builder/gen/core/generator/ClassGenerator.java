@@ -46,7 +46,7 @@ public class ClassGenerator {
 
     public CompilationUnit generateBuilderSource() {
         CompilationUnit cu = new CompilationUnit();
-        ctx.targetPackage().ifPresent(cu::setPackageDeclaration);
+        ctx.getTargetPackage().ifPresent(cu::setPackageDeclaration);
         ClassOrInterfaceDeclaration builderClass = cu.addClass(targetClass.getNameAsString() + builderPostfix).setPublic(true);
         for (ClassContributor component : components) {
             component.contribute(cu, builderClass, ctx);
@@ -62,9 +62,10 @@ public class ClassGenerator {
                 .map(FieldDeclaration::getVariables)
                 .flatMap(Collection::stream)
                 .toList();
-        Optional<String> targetPackage = targetClass.findCompilationUnit()
+        String targetPackage = targetClass.findCompilationUnit()
                 .flatMap(CompilationUnit::getPackageDeclaration)
-                .map(NodeWithName::getNameAsString);
+                .map(NodeWithName::getNameAsString)
+                .orElse(null);
         return new GeneratorContext(
                 targetClass,
                 dtoClasses,

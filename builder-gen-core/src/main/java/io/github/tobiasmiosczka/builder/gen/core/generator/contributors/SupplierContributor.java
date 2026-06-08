@@ -16,14 +16,14 @@ public class SupplierContributor implements ClassContributor {
 
     @Override
     public void contribute(CompilationUnit cu, ClassOrInterfaceDeclaration builderClass, GeneratorContext ctx) {
-        ctx.targetPackage().ifPresent(e -> cu.addImport(e + "." + ctx.targetClass().getNameAsString()));
+        ctx.getTargetPackage().ifPresent(e -> cu.addImport(e + "." + ctx.getTargetClass().getNameAsString()));
         cu.addImport(Supplier.class);
         builderClass.addImplementedType(new ClassOrInterfaceType(null, Supplier.class.getSimpleName())
-                .setTypeArguments(new ClassOrInterfaceType(null, ctx.targetClass().getNameAsString())));
-        String baseClassName = ctx.targetClass().getName().asString();
+                .setTypeArguments(new ClassOrInterfaceType(null, ctx.getTargetClass().getNameAsString())));
+        String baseClassName = ctx.getTargetClass().getName().asString();
         BlockStmt getBody = new BlockStmt();
         getBody.addStatement("var result = new " + baseClassName + "();");
-        for (VariableDeclarator field : ctx.fields()) {
+        for (VariableDeclarator field : ctx.getFields()) {
             getBody.addStatement(buildSetStatement(field, ctx));
         }
         getBody.addStatement("return result;");
@@ -38,7 +38,7 @@ public class SupplierContributor implements ClassContributor {
     }
 
     private static @NonNull String buildGetStatement(VariableDeclarator field, GeneratorContext ctx) {
-        String getter = ctx.typeResolver().builderValueRetrieval(field.getType(), ctx, 1)
+        String getter = ctx.getTypeResolver().builderValueRetrieval(field.getType(), ctx, 1)
                 .orElse("");
         return "this." + field.getNameAsString() + getter;
     }

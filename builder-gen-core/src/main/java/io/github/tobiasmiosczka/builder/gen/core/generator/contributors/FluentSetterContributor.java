@@ -14,14 +14,14 @@ public class FluentSetterContributor implements ClassContributor {
 
     @Override
     public void contribute(CompilationUnit cu, ClassOrInterfaceDeclaration builderClass, GeneratorContext ctx) {
-        for (VariableDeclarator field : ctx.fields()) {
+        for (VariableDeclarator field : ctx.getFields()) {
             String fieldName = field.getNameAsString();
             BlockStmt setterBody = new BlockStmt()
                     .addStatement("this." + fieldName + " = " + VALUE + ";")
                     .addStatement("return this;");
             builderClass.addMethod(fieldName, PUBLIC)
                     .setType(builderClass.getNameAsString())
-                    .addParameter(ctx.typeResolver().resolveBuilderFieldType(field.getType(), ctx), VALUE)
+                    .addParameter(ctx.getTypeResolver().resolveBuilderFieldType(field.getType(), ctx), VALUE)
                     .setBody(setterBody);
         }
     }

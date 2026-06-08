@@ -29,13 +29,13 @@ public class ClassWriter {
     private void generate(ClassReference classReference, String code) throws IOException {
         Path targetDirectory = getPath(classReference);
         Files.createDirectories(targetDirectory);
-        Path javaFile = targetDirectory.resolve(classReference.className() + JAVA_FILE_EXTENSION);
+        Path javaFile = targetDirectory.resolve(classReference.getClassName() + JAVA_FILE_EXTENSION);
         Files.writeString(javaFile, code, this.charset);
 
     }
 
     private Path getPath(ClassReference ref) {
-        String packageFolder = ref.packageName().replace('.', File.separatorChar);
+        String packageFolder = ref.getPackageName().replace('.', File.separatorChar);
         return basePath.resolve(packageFolder);
     }
 }

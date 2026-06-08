@@ -25,10 +25,10 @@ public class MapTypeResolver extends GenericTypeResolver {
         imports.add(Map.class.getName());
         imports.add(Collectors.class.getName());
         getGenericCollectionType(type)
-                .map(e -> ctx.typeResolver().resolveImports(e, ctx))
+                .map(e -> ctx.getTypeResolver().resolveImports(e, ctx))
                 .ifPresent(imports::addAll);
         getGenericMapValueType(type)
-                .map(e -> ctx.typeResolver().resolveImports(e, ctx))
+                .map(e -> ctx.getTypeResolver().resolveImports(e, ctx))
                 .ifPresent(imports::addAll);
         return imports;
     }
@@ -40,7 +40,7 @@ public class MapTypeResolver extends GenericTypeResolver {
     }
 
     private static String getString(GeneratorContext ctx, Type type, int depth) {
-        return ctx.typeResolver().builderValueRetrieval(type, ctx, depth + 1)
+        return ctx.getTypeResolver().builderValueRetrieval(type, ctx, depth + 1)
                 .map(string -> "e".repeat(depth) + " -> " + "e".repeat(depth) + ".getValue()" + string)
                 .orElse("Map.Entry::getValue");
     }
@@ -51,12 +51,13 @@ public class MapTypeResolver extends GenericTypeResolver {
                 .map(Type::asString)
                 .orElse("Object");
         return getGenericMapValueType(type)
-                .map(e -> "Map<" + keyType + ", " + ctx.typeResolver().resolveBuilderFieldType(e, ctx) + ">")
+                .map(e -> "Map<" + keyType + ", " + ctx.getTypeResolver().resolveBuilderFieldType(e, ctx) + ">")
                 .orElse("Map");
     }
 
     private static Optional<Type> getGenericMapValueType(Type type) {
-        if (type instanceof ClassOrInterfaceType cit) {
+        if (type instanceof ClassOrInterfaceType) {
+            ClassOrInterfaceType cit = (ClassOrInterfaceType) type;
             return cit.getTypeArguments()
                     .flatMap(NodeList::getLast);
         }

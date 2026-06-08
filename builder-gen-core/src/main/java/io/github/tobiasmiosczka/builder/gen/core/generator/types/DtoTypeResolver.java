@@ -12,7 +12,7 @@ public class DtoTypeResolver implements TypeResolveStrategy {
 
     @Override
     public boolean isApplicable(Type type, GeneratorContext ctx) {
-        return ctx.dtoClasses().stream()
+        return ctx.getDtoClasses().stream()
                 .anyMatch(e -> matches(type, e));
     }
 
@@ -27,7 +27,7 @@ public class DtoTypeResolver implements TypeResolveStrategy {
 
     @Override
     public Set<String> resolveImports(Type type, GeneratorContext ctx) {
-        return ctx.dtoClasses().stream()
+        return ctx.getDtoClasses().stream()
                 .filter(dtoClass -> dtoClass.getNameAsString().equals(type.asString()))
                 .map(ClassOrInterfaceDeclaration::getFullyQualifiedName)
                 .findFirst()

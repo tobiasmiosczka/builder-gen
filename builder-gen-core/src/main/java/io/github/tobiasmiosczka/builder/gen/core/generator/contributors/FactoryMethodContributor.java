@@ -15,7 +15,7 @@ public class FactoryMethodContributor implements ClassContributor {
     @Override
     public void contribute(CompilationUnit cu, ClassOrInterfaceDeclaration builderClass, GeneratorContext ctx) {
         ConstructorDeclaration constructorDeclaration = builderClass.addConstructor(PRIVATE);
-        builderClass.addMethod(uncapitalize(ctx.targetClass().getNameAsString()))
+        builderClass.addMethod(uncapitalize(ctx.getTargetClass().getNameAsString()))
                 .addModifier(PUBLIC, STATIC)
                 .setType(builderClass.getNameAsString())
                 .setBody(new BlockStmt().addStatement("return new " + constructorDeclaration.getNameAsString() + "();"));

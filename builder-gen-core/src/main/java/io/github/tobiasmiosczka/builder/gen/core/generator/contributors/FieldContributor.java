@@ -13,7 +13,7 @@ public class FieldContributor implements ClassContributor {
 
     @Override
     public void contribute(CompilationUnit cu, ClassOrInterfaceDeclaration builderClass, GeneratorContext ctx) {
-        for (VariableDeclarator field : ctx.fields()) {
+        for (VariableDeclarator field : ctx.getFields()) {
             addField(cu, builderClass, ctx, field);
         }
     }
@@ -23,10 +23,10 @@ public class FieldContributor implements ClassContributor {
             ClassOrInterfaceDeclaration builderClass,
             GeneratorContext ctx,
             VariableDeclarator field) {
-        String type = ctx.typeResolver().resolveBuilderFieldType(field.getType(), ctx);
+        String type = ctx.getTypeResolver().resolveBuilderFieldType(field.getType(), ctx);
         builderClass.addField(type, field.getName().asString())
                 .addModifier(PRIVATE);
-        Set<String> requiredImports = ctx.typeResolver().resolveImports(field.getType(), ctx);
+        Set<String> requiredImports = ctx.getTypeResolver().resolveImports(field.getType(), ctx);
         requiredImports.forEach(cu::addImport);
     }
 
