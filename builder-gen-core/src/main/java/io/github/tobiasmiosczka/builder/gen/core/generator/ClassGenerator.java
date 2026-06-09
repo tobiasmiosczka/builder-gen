@@ -17,7 +17,7 @@ import io.github.tobiasmiosczka.builder.gen.core.generator.types.TypeResolver;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class ClassGenerator {
 
@@ -61,7 +61,7 @@ public class ClassGenerator {
                 .filter(f -> !f.isStatic())
                 .map(FieldDeclaration::getVariables)
                 .flatMap(Collection::stream)
-                .toList();
+                .collect(Collectors.toList());
         String targetPackage = targetClass.findCompilationUnit()
                 .flatMap(CompilationUnit::getPackageDeclaration)
                 .map(NodeWithName::getNameAsString)
