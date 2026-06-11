@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 
 public class ClassGenerator {
 
+    public static final String GENERATOR_NAME = "io.github.tobiasmiosczka.builder-gen-maven-plugin";
     private final GeneratorContext ctx;
     private final List<ClassContributor> components;
     private final String builderPostfix;
@@ -40,7 +41,7 @@ public class ClassGenerator {
                 new SupplierContributor(),
                 new FactoryMethodContributor(),
                 new CopyFactoryMethodContributor(),
-                new GeneratedAnnotationContributor(now, "io.github.tobiasmiosczka.builder-gen-maven-plugin")
+                new GeneratedAnnotationContributor(now, GENERATOR_NAME)
         );
     }
 
@@ -57,20 +58,26 @@ public class ClassGenerator {
     private GeneratorContext createContext(
             ClassOrInterfaceDeclaration targetClass,
             Collection<ClassOrInterfaceDeclaration> dtoClasses) {
-        List<VariableDeclarator> fields = targetClass.getFields().stream()
+        return new GeneratorContext(
+                targetClass,
+                dtoClasses,
+                getFields(targetClass),
+                getTargetPackage(targetClass),
+                new TypeResolver());
+    }
+
+    private static String getTargetPackage(ClassOrInterfaceDeclaration targetClass) {
+        return targetClass.findCompilationUnit()
+                .flatMap(CompilationUnit::getPackageDeclaration)
+                .map(NodeWithName::getNameAsString)
+                .orElse(null);
+    }
+
+    private static List<VariableDeclarator> getFields(ClassOrInterfaceDeclaration targetClass) {
+        return targetClass.getFields().stream()
                 .filter(f -> !f.isStatic())
                 .map(FieldDeclaration::getVariables)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
-        String targetPackage = targetClass.findCompilationUnit()
-                .flatMap(CompilationUnit::getPackageDeclaration)
-                .map(NodeWithName::getNameAsString)
-                .orElse(null);
-        return new GeneratorContext(
-                targetClass,
-                dtoClasses,
-                fields,
-                targetPackage,
-                new TypeResolver());
     }
 }
