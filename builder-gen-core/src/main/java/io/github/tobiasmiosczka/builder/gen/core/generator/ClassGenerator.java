@@ -25,11 +25,11 @@ public class ClassGenerator {
     public ClassGenerator(
             ClassOrInterfaceDeclaration targetClass,
             Collection<ClassOrInterfaceDeclaration> dtoClasses,
-            String builderPostfix) {
+            String builderPostfix,
+            ZonedDateTime now) {
         this.targetClass = targetClass;
         this.builderPostfix = builderPostfix;
         this.ctx = new GeneratorContext(targetClass, dtoClasses);
-        ZonedDateTime now = ZonedDateTime.now();
         this.components = List.of(
                 new FieldContributor(),
                 new FluentSetterContributor(),

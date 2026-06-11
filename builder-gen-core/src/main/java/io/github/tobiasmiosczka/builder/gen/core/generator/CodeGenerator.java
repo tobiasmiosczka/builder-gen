@@ -6,6 +6,7 @@ import com.github.javaparser.ast.nodeTypes.NodeWithName;
 import com.github.javaparser.printer.DefaultPrettyPrinter;
 import io.github.tobiasmiosczka.builder.gen.core.ClassReference;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -24,9 +25,10 @@ public class CodeGenerator {
     }
 
     public Map<ClassReference, String> generate() {
+        ZonedDateTime now = ZonedDateTime.now();
         Map<ClassReference, String> result = new HashMap<>();
         for (ClassOrInterfaceDeclaration classDecl : classes) {
-            CompilationUnit code = new ClassGenerator(classDecl, classes, BUILDER_POSTFIX)
+            CompilationUnit code = new ClassGenerator(classDecl, classes, BUILDER_POSTFIX, now)
                     .generateBuilderSource();
             result.put(getClassReference(classDecl), prettyPrinter.print(code));
         }
