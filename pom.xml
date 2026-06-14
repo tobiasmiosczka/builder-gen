@@ -154,7 +154,6 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <stylesheet>java</stylesheet>
                             <doclint>none</doclint>
                         </configuration>
                     </plugin>
